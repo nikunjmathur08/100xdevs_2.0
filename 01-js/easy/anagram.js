@@ -5,29 +5,29 @@
 */
 
 function isAnagram(str1, str2) {
-  let newStr = "";
-  if(str1.length !== str2.length){
-    return false;
+  const normalize = str => str.replace(/\s+/g, '').toLowerCase();
+  
+  str1 = normalize(str1);
+  str2 = normalize(str2);
+  
+  if (str1.length !== str2.length) {
+      return false;
+  }
+  
+  const charCount = {};
+  
+  for (let char of str1) {
+      charCount[char] = (charCount[char] || 0) + 1;
   }
 
-  str1 = str1.toLowerCase();
-  str2 = str2.toLowerCase();
-
-  let arr1 = str1.split("").sort();
-  let arr2 = str2.split("").sort();
-
-  function check(arr1, arr2){
-    for(let i = 0; i < arr1.length(); i++){
-      if(arr[i] !== arr2[i]){
-        return false;
+  for (let char of str2) {
+      if (!charCount[char]) {
+          return false;
       }
-    }
-    return true;
+      charCount[char]--;
   }
-
-  let ans = check(arr1, arr2);
-  return ans;
+  
+  return true;
 }
-
 
 module.exports = isAnagram;
