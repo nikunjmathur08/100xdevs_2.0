@@ -16,6 +16,66 @@
   Once you've implemented the logic, test your code by running
 */
 
-class Calculator {}
+class Calculator {
+  constructor() {
+    this.result = 0;
+  }
+
+  add(number) {
+    this.result += number;
+  }
+
+  subtract(number) {
+    this.result -= number;
+  }
+
+  multiply(number) {
+    this.result *= number;
+  }
+
+  divide(number) {
+    if (number === 0) {
+      throw new Error("Division by zero");
+    }
+    this.result /= number;
+  }
+
+  clear() {
+    this.result = 0;
+  }
+
+  getResult() {
+    return this.result;
+  }
+
+  calculate(expression) {
+    // Remove spaces from the expression
+    expression = expression.replace(/\s+/g, '');
+
+    // Validate the expression: It should only contain numbers, operators, and parentheses
+    if (/[^0-9+\-*/().]/.test(expression)) {
+      throw new Error("Invalid characters in expression");
+    }
+
+    // Check for division by zero
+    if (expression.includes("/0")) {
+      throw new Error("Division by zero");
+    }
+
+    try {
+      // Evaluate the expression using a Function constructor
+      // This should only be used with caution and trusted input
+      // eslint-disable-next-line no-new-func
+      this.result = new Function(`return ${expression}`)();
+      if (isNaN(this.result)) {
+        throw new Error("Invalid mathematical expression");
+      }
+    } catch (e) {
+      throw new Error("Error in calculating the expression");
+    }
+
+    return this.result;
+  }
+}
 
 module.exports = Calculator;
