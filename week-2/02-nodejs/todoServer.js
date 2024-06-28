@@ -41,8 +41,24 @@
  */
   const express = require('express');
   const bodyParser = require('body-parser');
+  const fs = require("fs");
   
   const app = express();
+
+  app.get("/todos", (req, res) => {
+    fs.readFile("todos.json", "utf8", (err, data) => {
+      if (err) throw err;
+      res.status(200).json(JSON.parse(data));
+    })
+  })
+
+  app.get("/todos/:id", (req, res) => {
+    fs.readFile("todos.json", "utf-8", (err, data) => {
+      if (err) throw err;
+      const todos = JSON.parse(data);
+      
+    })
+  })
   
   app.use(bodyParser.json());
   
